@@ -50,6 +50,11 @@ const userInterface = (() => {
     console.log('Hard')
     body.style.background = 'linear-gradient(to right, #9F2424 0%, #8D1F1F 50%, #761B1B 100%'
     test.style.textShadow = '0 -1px 4px #FFF, 0 -2px 10px #ff0, 0 -10px 20px #ff8000, 0 -18px 40px #F00'
+    
+    // HARD MODE NOT CURRENTLY WORKING
+    test.innerText ='Under Construction'
+    gameMechanics.reset_button.innerText = ''
+    
     mainMenu.classList.add('hidden')
     gameMechanics.goBack()
   }
@@ -239,6 +244,7 @@ const gameMechanics = (() => {
     // tie,
     // winning,
     reset,
+    reset_button,
     goBack,
   }
 })()
