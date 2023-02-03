@@ -3,11 +3,6 @@ html, body{
   margin: 0%;
   height: 100%;
   width: 100%;
-  display: flex;html, body{
-
-  margin: 0%;
-  height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -140,4 +135,3 @@ html, body{
   height: 0%;
   overflow:hidden;
 }
-
