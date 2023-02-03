@@ -88,6 +88,100 @@ const gameMechanics = (() => {
       game_square.addEventListener("click", () => {
         // Prevent conflict
         if (isNaN(game_array[index]) == false) {
+  const btn_twoPlayer = document.querySelector('#twoPlayer')
+const btn_computerEasy = document.querySelector('#computerEasy')
+const btn_computerHard = document.querySelector('#computerHard')
+
+btn_twoPlayer.addEventListener('click', () => {
+  userInterface.mode_twoPlayer()
+
+})
+
+btn_computerEasy.addEventListener('click', () => {
+  userInterface.mode_ComputerEasy()
+
+})
+
+btn_computerHard.addEventListener('click', () => {
+  userInterface.mode_ComputerHard()
+})
+
+// All UI related functions
+const userInterface = (() => {
+  const body = document.querySelector('body')
+  const test = document.querySelector('.test')
+  const mainMenu = document.querySelector('.modeSelect')
+  
+
+
+  const mode_twoPlayer = () => {
+
+    console.log('PVP')
+    mainMenu.classList.add('hidden')
+    gameMechanics.playerTurn()
+    gameMechanics.reset()
+    gameMechanics.playerTurn()
+    gameMechanics.goBack()
+
+  }
+
+  const mode_ComputerEasy = () => {
+
+    console.log('Easy')
+    mainMenu.classList.add('hidden')
+    body.style.background = 'linear-gradient(to right, #41B345 0%, #3AA23E 50%, #37973A)'
+    gameMechanics.playerTurn(gameMechanics.computerTurn)
+    gameMechanics.reset()
+    gameMechanics.goBack()
+  }
+
+  const mode_ComputerHard = () => {
+
+    console.log('Hard')
+    body.style.background = 'linear-gradient(to right, #9F2424 0%, #8D1F1F 50%, #761B1B 100%'
+    test.style.textShadow = '0 -1px 4px #FFF, 0 -2px 10px #ff0, 0 -10px 20px #ff8000, 0 -18px 40px #F00'
+    mainMenu.classList.add('hidden')
+    gameMechanics.goBack()
+  }
+
+  return {
+    mode_twoPlayer,
+    mode_ComputerEasy,
+    mode_ComputerHard,
+  }
+})()
+
+// All game related functions
+const gameMechanics = (() => {
+  const reset_button = document.querySelector('#reset')
+  const back_button = document.querySelector('#backBtn')
+  const replay_button = document.querySelector('#playAgain')
+  const gameOver = document.querySelector('.endGame')
+  const endGameTitle = document.querySelector('#endTitle')
+  const game_square = document.querySelectorAll('.gameSquare')
+  let game_array = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+  
+  // Player Objects
+  class Player {
+    constructor(symbol) {
+      this.symbol = symbol
+    }
+  }
+
+  const player1_obj = new Player("X")
+  const player2_obj = new Player("O")
+  let activePlayer = player1_obj
+
+/////              Game Flow                  /////
+//////////////////////////////////////////////////
+  
+  // Player rotation
+  const playerTurn = (AI_option) => {
+    game_square.forEach((game_square, index) => {
+      game_square.addEventListener("click", () => {
+        // Prevent conflict
+        if (isNaN(game_array[index]) == false) {
           // check for AI Modes
           if (AI_option == gameMechanics.computerTurn && activePlayer != player2_obj) {
             update_board('X', index)
@@ -145,13 +239,19 @@ const gameMechanics = (() => {
   const gameResult = () => {
 
     if (winning()) {
-      reset_button.style.color = 'orange'
+      gameOver.classList.remove('hidden')
+      endGameTitle.innerText = `${activePlayer.symbol}'s Win!`
+      endGame()
     }
     else if (tie()) {
-      reset_button.style.color = 'purple'
+      gameOver.classList.remove('hidden')
+      endGameTitle.innerText = 'Tie Game!'
+      endGame()
     }
     else if (tie() && winning()) {
-      reset_button.style.color = 'green'
+      gameOver.classList.remove('hidden')
+      endGameTitle.innerText = `${activePlayer.symbol}'s Win!`
+      endGame()
     } else {
       next_player()
     }
@@ -202,6 +302,18 @@ const gameMechanics = (() => {
     })
   }
 
+  const endGame = () =>{
+    replay_button.addEventListener('click', () => {
+      gameOver.classList.add('hidden')
+      activePlayer = player1_obj
+      playerTurn()
+      for (let i = 0; i < game_square.length; i++) {
+        game_square[i].innerText = ""
+        game_array = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+      }
+    })
+  }
+  
   // back button
   const goBack = () => {
     back_button.addEventListener('click', () => {
